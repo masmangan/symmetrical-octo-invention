@@ -30,7 +30,15 @@ class Node {
     }
 
     public String central() {
-        return String.format("%s %c %s",
+        if (left == null && right == null)
+            return String.format("%c",
+                    data);
+        if (parent == null)
+            return String.format("%s %c %s",
+                    left == null ? "" : left.central(),
+                    data,
+                    right == null ? "" : right.central());
+        return String.format("(%s %c %s)",
                 left == null ? "" : left.central(),
                 data,
                 right == null ? "" : right.central());
@@ -51,9 +59,9 @@ class Node {
             Node n = q.remove();
             result.add(n.data);
             if (n.left != null)
-            q.add(n.left);
+                q.add(n.left);
             if (n.right != null)
-            q.add(n.right);
+                q.add(n.right);
         }
         return result;
     }
@@ -139,14 +147,74 @@ public class Tree {
         plus1.right = b;
         a.parent = b.parent = plus1;
 
+        Node d = new Node('D');
+        Node e = new Node('E');
+        Node sub1 = new Node('-');
+
+        sub1.left = d;
+        sub1.right = e;
+        d.parent = e.parent = sub1;
+
+        Node f = new Node('F');
+        Node g = new Node('G');
+        Node div1 = new Node('/');
+
+        div1.left = f;
+        div1.right = g;
+        f.parent = div1;
+        g.parent = div1;
+
+        Node c = new Node('C');
+        Node mult1 = new Node('*');
+
+        mult1.left = c;
+        mult1.right = sub1;
+        c.parent = sub1.parent = c;
+
+        Node plus2 = new Node('+');
+
+        plus2.left = mult1;
+        plus2.right = div1;
+        mult1.parent = div1.parent = plus2;
+
+        Node sub2 = new Node('-');
+
+        sub2.left = plus1;
+        sub2.right = plus2;
+        plus1.parent = plus2.parent = sub2;
+
         System.out.println(plus1);
         System.out.println(plus1.pre());
         System.out.println(plus1.central());
         System.out.println(plus1.pos());
 
+        System.out.println(sub1);
+        System.out.println(sub1.pre());
+        System.out.println(sub1.central());
+        System.out.println(sub1.pos());
+
+        System.out.println(div1);
+        System.out.println(div1.pre());
+        System.out.println(div1.central());
+        System.out.println(div1.pos());
+
+        System.out.println(mult1);
+        System.out.println(mult1.pre());
+        System.out.println(mult1.central());
+        System.out.println(mult1.pos());
+
+        System.out.println(plus2);
+        System.out.println(plus2.pre());
+        System.out.println(plus2.central());
+        System.out.println(plus2.pos());
+
+        System.out.println(sub2);
+        System.out.println(sub2.pre());
+        System.out.println(sub2.central());
+        System.out.println(sub2.pos());
     }
 
     public static void main(String[] args) {
-        example1();
+        example2();
     }
 }
