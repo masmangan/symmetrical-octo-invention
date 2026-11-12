@@ -5,8 +5,6 @@ import java.util.List;
 
 /**
  * 
- * Realizar rotação para o caso direita, direita: A,B,C.
- * 
  */
 class Node {
     Character data;
@@ -22,7 +20,7 @@ class Node {
     }
 
     public int fb() {
-        int f = (right==null?-1:right.height) - (left==null?-1:left.height);
+        int f = (right == null ? -1 : right.height) - (left == null ? -1 : left.height);
         return f;
     }
 
@@ -81,23 +79,16 @@ class Node {
     }
 }
 
+/**
+ * 
+ * AVLTree
+ */
 public class AVLTree {
 
     private Node root;
 
     public AVLTree() {
         root = null;
-    }
-
-    public int height() {
-        return height(root);
-    }
-
-    // O(n)
-    private int height(Node node) {
-        if (node == null)
-            return -1;
-        return 1 + Math.max(height(node.left), height(node.right));
     }
 
     public boolean isEmpty() {
@@ -111,12 +102,43 @@ public class AVLTree {
     private Node add(Node node, Character c) {
         if (node == null)
             return new Node(c);
-        if (node.data < c)
+        if (node.data < c) {
             node.right = add(node.right, c);
-        else
+            if (node.fb() >= 2) {
+                if (node.right.fb() < 0) {
+                    node.right = rotateRight(node.right);
+                }
+                node = rotateLeft(node);
+            }
+        } else if (node.data > c) {
             node.left = add(node.left, c);
+            if (node.fb() <= -2) {
+                if (node.left.fb() > 0) {
+                    node.left = rotateLeft(node.left);
+                }
+                node = rotateRight(node);
+            }
+        }
         node.height = 1 + Math.max(h(node.left), h(node.right));
         return node;
+    }
+
+    private Node rotateLeft(Node k1) {
+        Node k2 = k1.right;
+        k1.right = k2.left;
+        k2.left = k1;
+        k1.height = 1 + Math.max(h(k1.left), h(k1.right));
+        k2.height = 1 + Math.max(h(k2.left), h(k2.right));
+        return k2;
+    }
+
+    private Node rotateRight(Node k2) {
+        Node k1 = k2.left;
+        k2.left = k1.right;
+        k1.right = k2;
+        k2.height = 1 + Math.max(h(k2.left), h(k2.right));
+        k1.height = 1 + Math.max(h(k1.left), h(k1.right));
+        return k1;
     }
 
     private int h(Node node) {
@@ -125,6 +147,25 @@ public class AVLTree {
         return node.height;
     }
 
+        // O(n)
+    public boolean contains(Character c) {
+        return contains0(root, c);
+    }
+
+    // O(n)
+    private boolean contains0(Node node, Character c) {
+        if (node == null) {
+            return false;
+        }
+        if (node.data < c) {
+            return contains0(node.right, c);
+        } else if (node.data > c) {
+            return contains0(node.left, c);
+        } else {
+            return true;
+        }
+    }
+    
     public String toString() {
         if (isEmpty())
             return "#";
@@ -136,25 +177,21 @@ public class AVLTree {
 
         System.out.println(t);
         System.out.println(t.isEmpty());
-        System.out.println(t.height());
-
-        t.add('A');
-
-        System.out.println(t);
-        System.out.println(t.isEmpty());
-        System.out.println(t.height());
-
-        t.add('B');
-
-        System.out.println(t);
-        System.out.println(t.isEmpty());
-        System.out.println(t.height());
 
         t.add('C');
 
         System.out.println(t);
         System.out.println(t.isEmpty());
-        System.out.println(t.height());
+
+        t.add('A');
+
+        System.out.println(t);
+        System.out.println(t.isEmpty());
+
+        t.add('B');
+
+        System.out.println(t);
+        System.out.println(t.isEmpty());
     }
 
     public static void main(String[] args) {
