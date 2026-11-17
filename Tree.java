@@ -3,16 +3,16 @@ import java.util.LinkedList;
 import java.util.Queue;
 import java.util.List;
 
-class Node {
+class GenericNode {
     Character data;
-    Node left;
-    Node right;
-    Node parent;
+    GenericNode left;
+    GenericNode right;
+    GenericNode parent;
 
-    Node() {
+    GenericNode() {
     }
 
-    Node(Character data) {
+    GenericNode(Character data) {
         this.data = data;
     }
 
@@ -52,11 +52,11 @@ class Node {
     }
 
     public List<Character> breadth() { // width?
-        Queue<Node> q = new LinkedList<>();
+        Queue<GenericNode> q = new LinkedList<>();
         List<Character> result = new ArrayList<>();
         q.add(this);
         while (!q.isEmpty()) {
-            Node n = q.remove();
+            GenericNode n = q.remove();
             result.add(n.data);
             if (n.left != null)
                 q.add(n.left);
@@ -69,7 +69,7 @@ class Node {
 
 public class Tree {
 
-    public static String toString(Node n) {
+    public static String toString(GenericNode n) {
 
         return n.toString();
     }
@@ -104,13 +104,13 @@ public class Tree {
     public static void example1() {
         System.out.println("Tree!");
 
-        Node a = new Node();
-        Node b = new Node();
-        Node c = new Node();
-        Node d = new Node();
-        Node e = new Node();
-        Node f = new Node();
-        Node g = new Node();
+        GenericNode a = new GenericNode();
+        GenericNode b = new GenericNode();
+        GenericNode c = new GenericNode();
+        GenericNode d = new GenericNode();
+        GenericNode e = new GenericNode();
+        GenericNode f = new GenericNode();
+        GenericNode g = new GenericNode();
 
         a.data = 'A';
         b.data = 'B';
@@ -139,45 +139,45 @@ public class Tree {
     }
 
     public static void example2() {
-        Node a = new Node('A');
-        Node b = new Node('B');
-        Node plus1 = new Node('+');
+        GenericNode a = new GenericNode('A');
+        GenericNode b = new GenericNode('B');
+        GenericNode plus1 = new GenericNode('+');
 
         plus1.left = a;
         plus1.right = b;
         a.parent = b.parent = plus1;
 
-        Node d = new Node('D');
-        Node e = new Node('E');
-        Node sub1 = new Node('-');
+        GenericNode d = new GenericNode('D');
+        GenericNode e = new GenericNode('E');
+        GenericNode sub1 = new GenericNode('-');
 
         sub1.left = d;
         sub1.right = e;
         d.parent = e.parent = sub1;
 
-        Node f = new Node('F');
-        Node g = new Node('G');
-        Node div1 = new Node('/');
+        GenericNode f = new GenericNode('F');
+        GenericNode g = new GenericNode('G');
+        GenericNode div1 = new GenericNode('/');
 
         div1.left = f;
         div1.right = g;
         f.parent = div1;
         g.parent = div1;
 
-        Node c = new Node('C');
-        Node mult1 = new Node('*');
+        GenericNode c = new GenericNode('C');
+        GenericNode mult1 = new GenericNode('*');
 
         mult1.left = c;
         mult1.right = sub1;
         c.parent = sub1.parent = c;
 
-        Node plus2 = new Node('+');
+        GenericNode plus2 = new GenericNode('+');
 
         plus2.left = mult1;
         plus2.right = div1;
         mult1.parent = div1.parent = plus2;
 
-        Node sub2 = new Node('-');
+        GenericNode sub2 = new GenericNode('-');
 
         sub2.left = plus1;
         sub2.right = plus2;
